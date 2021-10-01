@@ -6,20 +6,20 @@ import ImageList from './ImageList';
 const uriListAll = "https://dog.ceo/api/breeds/list/all";
 
 export default function Header(){
-    const [selectedValue, setSelectedValue] = useState([]);
+    const [selectedValue, setSelectedValue] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [list, setList] = useState([]);
-    
+
     const getAllBreeds = async () => {
         try {
             if(isLoading){
                 const response = await fetch(uriListAll);
-                
+
                 if (response.status != 200) {
                     console.log(`Erro: ${response.status}`);
                     return;
                 }
-                
+
                 const json = await response.json();
                 setList(json);
             }
@@ -30,9 +30,9 @@ export default function Header(){
         }
     }
 
-    useEffect(() => { 
-        getAllBreeds(); []}
-    );
+    useEffect(() => {
+        getAllBreeds();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -42,7 +42,7 @@ export default function Header(){
                     selectedValue={selectedValue}
                     onValueChange={(itemValue) => setSelectedValue(itemValue)}>
                     <Picker.Item label="Selecione uma raça..." value={null} />
-                    {!isLoading && 
+                    {!isLoading &&
                         Object.keys(list.message).map((item) => { 
                             return <Picker.Item label={item} value={item} /> 
                         })
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     title: {
-        height: 40,
+        padding: 12,
         fontSize: 20,
         color: 'white',
         backgroundColor: '#1E90FF',
