@@ -12,7 +12,7 @@ export default function ImageList({ breed }) {
             if(nameBreed !== null){
                 setLoading(true);
                 const response = await fetch(`https://dog.ceo/api/breed/${nameBreed}/images/random/5`);
-    
+
                 if (response.status != 200) {
                     console.log(`Erro: ${response.status}`);
                     return;
@@ -23,12 +23,16 @@ export default function ImageList({ breed }) {
 
         } catch (error) {
             console.log(error);
+
         } finally {
             setLoading(false);
         }
     }
 
-    useEffect(() => { getByBreed(); }, [])
+    useEffect(() => {
+        getByBreed();
+        setNameBreed(breed);
+    }, [breed])
 
     return (
         <View style={styles.container}>
